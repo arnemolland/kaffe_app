@@ -1,4 +1,4 @@
-package com.example.kaffeapp;
+package no.bluewhale.kaffe;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

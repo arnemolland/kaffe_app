@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "703638593723",
+    "firebase_url": "https://kaffe-io.firebaseio.com",
+    "project_id": "kaffe-io",
+    "storage_bucket": "kaffe-io.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703638593723:android:48f6f9cb3b0e77df",
+        "android_client_info": {
+          "package_name": "no.bluewhale.kaffe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703638593723-4dlm9a5nupirec29mq2t92a2vgt0dsg7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "no.bluewhale.kaffe",
+            "certificate_hash": "cdfefd21078eaca34e272f26f7ebffe05a1bcc31"
+          }
+        },
+        {
+          "client_id": "703638593723-mkrtqnpd78cu9ntrtaqlj2ghq7k2aaj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn_2yWrtnE3vmaJdwtSQbOPZ5Ib2iNZVI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703638593723-mkrtqnpd78cu9ntrtaqlj2ghq7k2aaj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
