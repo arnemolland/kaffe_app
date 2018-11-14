@@ -1,8 +1,7 @@
+<img src="https://uploads-ssl.webflow.com/5b1128fc5f2c71cb3e9f8909/5bec4a11fb29cc4bf6b8ef0c_kaffe_logo_black_transparent.png" align="left" width="144px" height="144px"/>
+<img align="left" width="0" height="144px" hspace="10"/>
+
 # kaffe_app
 
-A new Flutter project.
-
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+> Caffeine tracking and analysis mobile app, built on Flutter.
+> [![gitmoji](https://img.shields.io/badge/gitmoji-%20%F0%9F%98%9C%20%F0%9F%98%8D-FFDD67.svg?style=flat-square)](https://gitmoji.carloscuesta.me/)
