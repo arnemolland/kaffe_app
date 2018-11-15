@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1125 2436" style="enable-background:new 0 0 1125 2436;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:url(#SVGID_1_);}
-	.st1{fill:none;stroke:#FFFFFF;stroke-width:50;stroke-miterlimit:10;}
-</style>
-<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="141.5" y1="1218" x2="982.5" y2="1218">
-	<stop  offset="0" style="stop-color:#FBAE17"/>
-	<stop  offset="1" style="stop-color:#FCEE21"/>
-</linearGradient>
-<circle class="st0" cx="562" cy="1218" r="420.5"/>
-<path class="st1" d="M548.13,1415.54c-144.19,0-222.82,28.54-244.55-114.01c-28.5-187,116.51-305.7,274.14-280.23
-	c156.74,25.32,246.33-46.66,247.16,148.82C825.49,1314.31,692.32,1415.54,548.13,1415.54z"/>
-</svg>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 841 841"><defs><style>.cls-1{fill:url(#linear-gradient);}.cls-2{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:30px;}</style><linearGradient id="linear-gradient" y1="420.5" x2="841" y2="420.5" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fbae17"/><stop offset="1" stop-color="#fcee21"/></linearGradient></defs><title>kaffe_logo</title><circle class="cls-1" cx="420.5" cy="420.5" r="420.5"/><path class="cls-2" d="M305.94,1312.31c-97.39-97.39-54.19-210.32,43.2-307.71s212.08-142.35,309.47-45-97,88.17-129.61,224.83C497,1318.43,403.33,1409.69,305.94,1312.31Z" transform="translate(-141.5 -797.5)"/><path class="cls-2" d="M818.06,1120.85c97.39,97.38,54.19,210.32-43.2,307.7s-212.08,142.36-309.47,45,97-88.17,129.61-224.83C627,1114.73,720.67,1023.46,818.06,1120.85Z" transform="translate(-141.5 -797.5)"/></svg>
