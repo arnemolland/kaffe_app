@@ -33,10 +33,39 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
 
+  
+  assets:
+    - assets/images/kaffe_logo.png
+    - assets/images/kaffe_logo.png
+    - assets/images/kaffe_logo_transparent.png
+    - assets/images/kaffe_logo_black.png
+    - assets/images/kaffe_logo_black_transparent.png
+    - assets/images/kaffe_logo_outline.png
+    - assets/images/beans.jpg
+    
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  fonts:
+    - family: Merriweather
+      fonts:
+        - asset: assets/fonts/Merriweather-LightItalic.ttf
+          style: italic
+          weight: 300
+        - asset: assets/fonts/Merriweather-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Merriweather-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Merriweather-Italic.ttf
+          style: italic
+          weight: 400
+        - asset: assets/fonts/Merriweather-BoldItalic.ttf
+          style: italic
+          weight: 700
+        - asset: assets/fonts/Merriweather-Bold.ttf
+          weight: 700
 
   # To add assets to your application, add an assets section, like this:
   # assets:
