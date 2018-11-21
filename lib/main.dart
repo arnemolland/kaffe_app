@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kaffe_app/constants/theme.dart';
 import 'constants/routes.dart';
-import 'package:kaffe_app/presentation/login_screen.dart';
+import 'package:kaffe_app/presentation/launch_screen.dart';
+import 'presentation/login_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,8 +16,9 @@ class MyApp extends StatelessWidget {
       routes: {
         KaffeRoutes.home: (context) => MyHomePage(),
         KaffeRoutes.login: (context) => LoginScreen(),
+        KaffeRoutes.launch: (context) => LaunchScreen()
       },
-      initialRoute: '/',
+      initialRoute: '/launch',
     );
   }
 }

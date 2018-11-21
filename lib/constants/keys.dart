@@ -9,10 +9,12 @@ class KaffeKeys {
   // Commong
   static final kaffeBottomBar = const Key('__kaffeBottomBar__');
 
-  // Login screen
+  // Launch screens
   static final loginScreen = const Key('__loginScreen__');
+  static final signupScreen = const Key('__signupScreen__');
   static final googleButton = const Key('__googleButton__');
   static final mailButton = const Key('__mailButton__');
+  static final launchScreen = const Key('__launchScreen__');
 
   // Coffees
   static final coffeeList = const Key('__coffeeList__');
