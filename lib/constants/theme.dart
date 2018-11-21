@@ -20,6 +20,7 @@ class KaffeTheme {
       textSelectionColor: Color(0xFFFDD78B),
       backgroundColor: Colors.white,
       toggleableActiveColor: Color(0xFFFBAE17),
+      primaryColorLight: Color(0xFFFEE7B9),
     );
   }
 }
