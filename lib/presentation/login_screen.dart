@@ -5,11 +5,9 @@ class LoginScreen extends StatefulWidget {
   LoginScreen() : super(key: KaffeKeys.loginScreen);
   @override
   _LoginScreenState createState() => _LoginScreenState();
-  
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,12 +16,30 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SafeArea(
           child: Column(
             children: <Widget>[
-              SizedBox(height: 100.0,),
-              Image.asset(
-                'assets/images/kaffe_logo_outline.png',
-                fit: BoxFit.scaleDown,
-                scale: 7.5,
-                alignment: Alignment.center,
+              SizedBox(
+                height: 50.0,
+              ),
+              Hero(
+                child: Image.asset(
+                  'assets/images/kaffe_logo_outline.png',
+                  fit: BoxFit.scaleDown,
+                  scale: 10,
+                  alignment: Alignment.center,
+                ),
+                tag: "logo",
+              ),
+              SizedBox(
+                height: 50.0,
+              ),
+              Hero(
+                child: Text(
+                  'Log in',
+                  style: TextStyle(
+                      color: Theme.of(context).buttonColor,
+                      fontFamily: 'Merriweather',
+                      fontSize: 46),
+                ),
+                tag: "login",
               )
             ],
           ),
