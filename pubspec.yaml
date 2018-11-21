@@ -26,6 +26,7 @@ dependencies:
   cloud_firestore: ^0.8.2
   firebase_storage: ^1.0.4
   firebase_analytics: ^1.0.6
+  flutter_svg: ^0.6.3
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +48,10 @@ flutter:
     - assets/images/kaffe_logo_black_transparent.png
     - assets/images/kaffe_logo_outline.png
     - assets/images/beans.jpg
+    - assets/images/kaffe_logo.svg
+    - assets/images/kaffe_logo_outline.svg
+    - assets/images/kaffe_logo_black.svg
+    - assets/images/takeaway.svg
     
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -71,6 +76,26 @@ flutter:
           weight: 700
         - asset: assets/fonts/Merriweather-Bold.ttf
           weight: 700
+
+    - family: Raleway
+      fonts:
+        - asset: assets/fonts/Raleway-LightItalic.ttf
+          style: italic
+          weight: 300
+        - asset: assets/fonts/Raleway-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Raleway-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Raleway-MediumItalic.ttf
+          style: italic
+          weight: 500
+        - asset: assets/fonts/Raleway-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Raleway-SemiBoldItalic.ttf
+          style: italic
+          weight: 600
+        - asset: assets/fonts/Raleway-SemiBold.ttf
+          weight: 600
 
   # To add assets to your application, add an assets section, like this:
   # assets:
