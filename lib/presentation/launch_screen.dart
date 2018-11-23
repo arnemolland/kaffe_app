@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:kaffe_app/constants/keys.dart';
 import 'package:kaffe_app/constants/routes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kaffe_app/constants/painters.dart';
 import 'dart:ui';
+import 'dart:io';
+import 'dart:async';
 
 class LaunchScreen extends StatefulWidget {
   LaunchScreen() : super(key: KaffeKeys.launchScreen);
@@ -12,9 +15,11 @@ class LaunchScreen extends StatefulWidget {
 
 class _LaunchScreenState extends State<LaunchScreen>
     with TickerProviderStateMixin {
-  double _radius = 0.0;
+      Timer _timer;
+  double _radius;
   double _newRadius = 0.0;
-  AnimationController raduiusAnimationController;
+  bool isLogin = false;
+  AnimationController _radiusAnimationController;
 
   @override
   void initState() {
@@ -23,13 +28,23 @@ class _LaunchScreenState extends State<LaunchScreen>
       _radius = 500.0;
     });
 
-    raduiusAnimationController = AnimationController(
+    _radiusAnimationController = AnimationController(
         vsync: this, duration: Duration(milliseconds: 1000))
       ..addListener(() {
         setState(() {
           _radius =
-              lerpDouble(_radius, _newRadius, raduiusAnimationController.value);
+              lerpDouble(_radius, _newRadius, _radiusAnimationController.value);
         });
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed && isLogin) {
+          _timer = Timer(const Duration(milliseconds: 1000), () {});
+          Navigator.pushNamed(context, KaffeRoutes.login);
+        }
+        if (status == AnimationStatus.completed && !isLogin) {
+          _timer = Timer(const Duration(milliseconds: 1000), () {});
+          Navigator.pushNamed(context, KaffeRoutes.login);
+        }
       });
   }
 
@@ -40,28 +55,36 @@ class _LaunchScreenState extends State<LaunchScreen>
         alignment: Alignment.center,
         child: CustomPaint(
           painter: LaunchArcPainter(
-            startColor: Theme.of(context).accentColor,
-            endColor: Color(0xFFFA9D11),
-            radius: _radius,
-          ),
+              startColor: Theme.of(context).accentColor,
+              endColor: Color(0xFFFA9D11),
+              radius: _radius,
+              surfaceColor: Colors.grey,
+              paintBackdrop: true),
           child: SafeArea(
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: 100.0,
+                  height: 125.0,
                 ),
-                Hero(
-                  child: SvgPicture.asset(
-                    'assets/images/kaffe_logo_outline.svg',
-                    fit: BoxFit.cover,
-                    height: 150.0,
-                    color: Theme.of(context).accentColor,
-                    alignment: Alignment.center,
-                  ),
-                  tag: "logo",
+                Image.asset(
+                  'assets/images/takeaway.png',
+                  fit: BoxFit.cover,
+                  height: 300.0,
+                  alignment: Alignment.center,
                 ),
                 SizedBox(
-                  height: 450.0,
+                  height: 50,
+                ),
+                Text(
+                  'The daily fuel.',
+                  style: TextStyle(
+                      fontFamily: 'Raleway',
+                      fontSize: 22,
+                      color: Colors.black12,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 200.0,
                 ),
                 ButtonBar(
                   alignment: MainAxisAlignment.spaceEvenly,
@@ -87,21 +110,25 @@ class _LaunchScreenState extends State<LaunchScreen>
                         highlightedBorderColor: Colors.white,
                         onPressed: () {
                           setState(() {
+                            isLogin = false;
                             _radius = _newRadius;
-                            _newRadius = 1100;
-                            raduiusAnimationController.forward(from: 0.0);
+                            _newRadius = 1150;
+                            _radiusAnimationController.forward(from: 0.0);
                           });
                         }),
                     OutlineButton(
                         color: Colors.white,
-                        padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
-                        child: Text(
-                          ' Login ',
-                          style: TextStyle(
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        ),
+                        padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
+                        child: Hero(
+                              child: Text(
+                                'Login',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                            ),
+                            tag: 'login'),
                         textColor: Colors.white,
                         shape: new RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
@@ -114,9 +141,12 @@ class _LaunchScreenState extends State<LaunchScreen>
                         highlightedBorderColor:
                             Theme.of(context).primaryColorLight,
                         onPressed: () {
-                          _radius = _newRadius;
-                          _newRadius = 500;
-                          raduiusAnimationController.forward(from: 0.0);
+                          setState(() {
+                            isLogin = true;
+                            _radius = _newRadius;
+                            _newRadius = 1150;
+                            _radiusAnimationController.forward(from: 0.0);
+                          });
                         }),
                   ],
                 ),
@@ -126,33 +156,5 @@ class _LaunchScreenState extends State<LaunchScreen>
         ),
       ),
     );
-  }
-}
-
-class LaunchArcPainter extends CustomPainter {
-  Color startColor;
-  Color endColor;
-  double radius;
-  LaunchArcPainter({this.startColor, this.endColor, this.radius});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Offset center = new Offset(size.width / 2, size.height * 1.25);
-    Rect rect = new Rect.fromCircle(center: center, radius: radius);
-
-    final Gradient gradient = new LinearGradient(
-      colors: <Color>[startColor, endColor],
-      stops: [0.0, 1.0],
-    );
-    Paint surface = new Paint()
-      ..style = PaintingStyle.fill
-      ..shader = gradient.createShader(rect);
-
-    canvas.drawCircle(center, radius, surface);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
   }
 }
