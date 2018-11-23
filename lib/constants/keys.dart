@@ -10,7 +10,7 @@ class KaffeKeys {
   static final kaffeBottomBar = const Key('__kaffeBottomBar__');
 
   // Launch screens
-  static final loginScreen = const Key('__loginScreen__');
+  static final signinScreen = const Key('__signinScreen__');
   static final signupScreen = const Key('__signupScreen__');
   static final googleButton = const Key('__googleButton__');
   static final mailButton = const Key('__mailButton__');

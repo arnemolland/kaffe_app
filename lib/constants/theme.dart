@@ -21,6 +21,7 @@ class KaffeTheme {
       backgroundColor: Colors.white,
       toggleableActiveColor: Color(0xFFFBAE17),
       primaryColorLight: Color(0xFFFEE7B9),
+      errorColor: Color(0xFFFB7C17),
     );
   }
 }
