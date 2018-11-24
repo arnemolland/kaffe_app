@@ -17,12 +17,15 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'presentation/signup_screen.dart';
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 void main([
   ReactiveArticlesRepository articlesRepository,
   UserRepository userRepository,
 ]) {
   runApp(KaffeApp(
-      articlesRepository: articlesRepository, userRepository: userRepository));
+      articlesRepository: articlesRepository,
+      userRepository: userRepository));
 }
 
 class KaffeApp extends StatelessWidget {
@@ -49,6 +52,7 @@ class KaffeApp extends StatelessWidget {
     return StoreProvider(
       store: store,
       child: MaterialApp(
+        navigatorObservers: [routeObserver],
         title: 'Kaffe',
         theme: KaffeTheme.modernTheme,
         routes: {
