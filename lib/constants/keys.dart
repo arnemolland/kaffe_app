@@ -6,7 +6,15 @@ class KaffeKeys {
   static final addCoffeeFab = const Key('_addCoffeeFab__');
   static snackbarAction(String id) => Key('__snackbar_action_${id}');
 
-  // Commong
+  // Articles
+  static final articlesLoading = const Key('__articlesLoading__');
+  static final articleList = const Key('__articleList__');
+  static final articleItem = (String id) => Key('ArticleItem_$id');
+  static final articleItemTitle = (String id) => Key('ArticleItem__${id}__Title');
+  static final articleItemAuthor = (String id) => Key('ArticleItem__${id}__Author');
+  static final articleView = const Key('__articleView__');
+
+  // Common
   static final kaffeBottomBar = const Key('__kaffeBottomBar__');
 
   // Launch screens
