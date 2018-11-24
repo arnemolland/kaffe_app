@@ -80,11 +80,7 @@ class _SignInScreenState extends State<SignInScreen>
             color: Colors.white,
           ),
           onPressed: () {
-            setState(() {
-              _radius = _newRadius;
-              _newRadius = 500;
-              _radiusAnimationController.forward(from: 0.0);
-            });
+            Navigator.pop(context);
           },
         ),
       ),

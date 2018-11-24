@@ -14,7 +14,7 @@ class LaunchScreen extends StatefulWidget {
 }
 
 class _LaunchScreenState extends State<LaunchScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, RouteAware {
   double _radius;
   double _newRadius = 0.0;
   bool isLogin = false;
@@ -25,7 +25,7 @@ class _LaunchScreenState extends State<LaunchScreen>
   void initState() {
     super.initState();
     setState(() {
-      _radius = 1200;
+      _radius = 500;
     });
 
     _radiusAnimationController = AnimationController(
@@ -36,20 +36,50 @@ class _LaunchScreenState extends State<LaunchScreen>
               lerpDouble(_radius, _newRadius, _radiusAnimationController.value);
         });
       })
-      ..addStatusListener((status) {
+      ..addStatusListener((status) async {
         if (status == AnimationStatus.completed && isLogin && shouldNavigate) {
-          Navigator.pushNamed(context, KaffeRoutes.login);
+          await Navigator.pushNamed(context, KaffeRoutes.login);
+          _radiusAnimationController.reverse(from:100);
         }
         if (status == AnimationStatus.completed && !isLogin && shouldNavigate) {
-          Navigator.pushNamed(context, KaffeRoutes.signup);
-        }
+          await Navigator.pushNamed(context, KaffeRoutes.signup).then((Object res) {
+           _radiusAnimationController.reverse(from:100);
+          }) ;       }
       });
-
-          setState(() {
-          _radius = _newRadius;
-          _newRadius = 500;
-          _radiusAnimationController.forward(from: 0);
+  }
+  // Called when the top route has been popped off, and the current route shows up.
+  @override
+  void didPopNext() {
+    setState(() {
+          _radiusAnimationController.reverse();
         });
+    debugPrint("didPopNext: $runtimeType");
+  }
+
+  // Called when the current route has been pushed.
+  @override
+  void didPush() {
+      shouldNavigate = false;
+    _radius = _newRadius;
+    _newRadius = 500;
+    _radiusAnimationController.forward(from: 0.0);
+    debugPrint("didPush: $runtimeType");
+  }
+
+  // Called when the current route has been popped off.
+  @override
+  void didPop() {
+    debugPrint("didPop: $runtimeType");
+  }
+
+  // Called when a new route has been pushed, and the current route is no longer visible.
+  @override
+  void didPushNext() {
+       shouldNavigate = false;
+    _radius = _newRadius;
+    _newRadius = 500;
+    _radiusAnimationController.forward(from: 0.0);
+    debugPrint("didPushNext ${runtimeType}");
   }
 
   @override
