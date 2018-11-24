@@ -8,24 +8,27 @@ class Article {
   final String author;
   final DateTime published;
   final String title;
+  final int beans;
 
-  Article(this.title, {DateTime published, String id, String author = ''})
+  Article(this.title, {DateTime published, String id, String author = '', beans})
       : this.published = published ?? DateTime.now(),
         this.author = author ?? '',
-        this.id = id ?? Uuid().v4();
+        this.id = id ?? Uuid().v4(),
+        this.beans = beans ?? 0;
 
-  Article copyWith({String id, String author, DateTime published, String title}) {
+  Article copyWith({String id, String author, DateTime published, String title, int beans}) {
     return Article(
       title ?? this.title,
       id: id ?? this.id,
       author: author ?? this.author,
-      published: published ?? this.published
+      published: published ?? this.published,
+      beans: beans ?? this.beans,
     );
   }
 
   @override
   int get hashCode =>
-    id.hashCode ^ author.hashCode ^ published.hashCode ^ title.hashCode;
+    id.hashCode ^ author.hashCode ^ published.hashCode ^ title.hashCode ^ beans.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -35,15 +38,16 @@ class Article {
     id == other.id &&
     author == other.author &&
     published == other.published &&
-    title == other.title;
+    title == other.title &&
+    beans == other.beans;
 
     @override
     String toString() {
-      return 'Article{id: $id, author: $author, published: $published, title: $title}';
+      return 'Article{id: $id, author: $author, published: $published, title: $title}, beans: $beans';
     }
 
     ArticleEntity toEntity() {
-      return ArticleEntity(id, author, title, published);
+      return ArticleEntity(id, author, title, published, beans);
     }
 
     static Article fromEntity(ArticleEntity entity) {
@@ -52,6 +56,7 @@ class Article {
         id: entity.id,
         author: entity.author,
         published: entity.published,
+        beans: entity.beans,
       );
     }
 }

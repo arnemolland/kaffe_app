@@ -36,6 +36,7 @@ class FirestoreReactiveArticlesRepository implements ReactiveArticlesRepository 
           doc['author'] ?? '',
           doc['title'] ?? '',
           doc['published'] ?? DateTime.now(),
+          doc['beans'] ?? 0,
         );
       }).toList();
     });

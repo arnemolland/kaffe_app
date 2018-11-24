@@ -3,12 +3,13 @@ class ArticleEntity {
   final String author;
   final String title;
   final DateTime published;
+  final int beans;
 
-  ArticleEntity(this.id, this.author, this.title, this.published);
+  ArticleEntity(this.id, this.author, this.title, this.published, this.beans);
 
   @override
   int get hashCode =>
-    id.hashCode ^ author.hashCode ^ title.hashCode ^ published.hashCode;
+    id.hashCode ^ author.hashCode ^ title.hashCode ^ published.hashCode ^ beans.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -18,7 +19,8 @@ class ArticleEntity {
     id == other.id &&
     author == other.author &&
     published == other.published &&
-    title == other.title;
+    title == other.title &&
+    beans == other.beans;
 
   Map<String, Object> toJson() {
     return {
@@ -26,6 +28,7 @@ class ArticleEntity {
       "author": author,
       "title": title,
       "published": published,
+      "beans": beans
     };
   }
 
@@ -35,11 +38,12 @@ class ArticleEntity {
       json["author"] as String,
       json["title"] as String,
       json["published"] as DateTime,
+      json["beans"] as int,
     );
   }
 
   @override
   String toString() {
-    return 'ArticleEntity{id: $id, author: $author, title: $title, published: $published}';
+    return 'ArticleEntity{id: $id, author: $author, title: $title, published: $published, beans: $beans}';
   }
 }
