@@ -15,6 +15,7 @@ import 'package:kaffe_app/actions/actions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'presentation/signup_screen.dart';
 
 void main([
   ReactiveArticlesRepository articlesRepository,
@@ -53,7 +54,8 @@ class KaffeApp extends StatelessWidget {
         routes: {
           KaffeRoutes.home: (context) => MyHomePage(),
           KaffeRoutes.login: (context) => SignInScreen(),
-          KaffeRoutes.launch: (context) => LaunchScreen()
+          KaffeRoutes.launch: (context) => LaunchScreen(),
+          KaffeRoutes.signup: (context) => SignUpScreen()
         },
         initialRoute: '/launch',
       ),
