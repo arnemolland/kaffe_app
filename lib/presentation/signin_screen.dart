@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:kaffe_app/models/models.dart';
+import 'package:kaffe_app/constants/routes.dart';
 
 class SignInScreen extends StatefulWidget {
   SignInScreen({Key key}) : super(key: key ?? KaffeKeys.signinScreen);
@@ -36,6 +37,11 @@ class _SignInScreenState extends State<SignInScreen>
           _radius =
               lerpDouble(_radius, _newRadius, _radiusAnimationController.value);
         });
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          Navigator.pop(context);
+        }
       });
   }
 
@@ -64,6 +70,24 @@ class _SignInScreenState extends State<SignInScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        iconTheme: IconThemeData(color: Colors.white),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            setState(() {
+              _radius = _newRadius;
+              _newRadius = 500;
+              _radiusAnimationController.forward(from: 0.0);
+            });
+          },
+        ),
+      ),
       body: Container(
         child: CustomPaint(
           painter: LaunchArcPainter(
@@ -131,7 +155,8 @@ class _LoginFormState extends State<LoginForm> {
           style: TextStyle(color: Colors.white, fontFamily: 'Raleway')),
       backgroundColor: Colors.red);
 
-  _signInUser(Function(String email, String password) onSubmittedCallback, String email, String password) async {
+  _signInUser(Function(String email, String password) onSubmittedCallback,
+      String email, String password) async {
     onSubmittedCallback(email, password);
   }
 
@@ -226,7 +251,8 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         Scaffold.of(context).showSnackBar(_loginSnack);
-                        _signInUser(viewModel.signInUserEmailCallback,_emailController.text, _passwordController.text);
+                        _signInUser(viewModel.signInUserEmailCallback,
+                            _emailController.text, _passwordController.text);
                       } //Navigator.pop(context);
                     }),
               ),

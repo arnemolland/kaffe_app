@@ -15,17 +15,17 @@ class LaunchScreen extends StatefulWidget {
 
 class _LaunchScreenState extends State<LaunchScreen>
     with TickerProviderStateMixin {
-      Timer _timer;
   double _radius;
   double _newRadius = 0.0;
   bool isLogin = false;
+  bool shouldNavigate = false;
   AnimationController _radiusAnimationController;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      _radius = 500.0;
+      _radius = 1200;
     });
 
     _radiusAnimationController = AnimationController(
@@ -37,15 +37,19 @@ class _LaunchScreenState extends State<LaunchScreen>
         });
       })
       ..addStatusListener((status) {
-        if (status == AnimationStatus.completed && isLogin) {
-          _timer = Timer(const Duration(milliseconds: 1000), () {});
+        if (status == AnimationStatus.completed && isLogin && shouldNavigate) {
           Navigator.pushNamed(context, KaffeRoutes.login);
         }
-        if (status == AnimationStatus.completed && !isLogin) {
-          _timer = Timer(const Duration(milliseconds: 1000), () {});
-          Navigator.pushNamed(context, KaffeRoutes.login);
+        if (status == AnimationStatus.completed && !isLogin && shouldNavigate) {
+          Navigator.pushNamed(context, KaffeRoutes.signup);
         }
       });
+
+          setState(() {
+          _radius = _newRadius;
+          _newRadius = 500;
+          _radiusAnimationController.forward(from: 0);
+        });
   }
 
   @override
@@ -93,11 +97,14 @@ class _LaunchScreenState extends State<LaunchScreen>
                     OutlineButton(
                         color: Colors.white,
                         padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
-                        child: Text('Signup',
-                            style: TextStyle(
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18)),
+                        child: Hero(
+                          child: Text('Signup',
+                              style: TextStyle(
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18)),
+                          tag: 'signup',
+                        ),
                         textColor: Colors.white,
                         shape: new RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
@@ -109,10 +116,11 @@ class _LaunchScreenState extends State<LaunchScreen>
                         ),
                         highlightedBorderColor: Colors.white,
                         onPressed: () {
+                          shouldNavigate = true;
                           setState(() {
                             isLogin = false;
                             _radius = _newRadius;
-                            _newRadius = 1150;
+                            _newRadius = 1200;
                             _radiusAnimationController.forward(from: 0.0);
                           });
                         }),
@@ -120,13 +128,13 @@ class _LaunchScreenState extends State<LaunchScreen>
                         color: Colors.white,
                         padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
                         child: Hero(
-                              child: Text(
-                                'Login',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
                             ),
                             tag: 'login'),
                         textColor: Colors.white,
@@ -141,10 +149,11 @@ class _LaunchScreenState extends State<LaunchScreen>
                         highlightedBorderColor:
                             Theme.of(context).primaryColorLight,
                         onPressed: () {
+                          shouldNavigate = true;
                           setState(() {
                             isLogin = true;
                             _radius = _newRadius;
-                            _newRadius = 1150;
+                            _newRadius = 1200;
                             _radiusAnimationController.forward(from: 0.0);
                           });
                         }),
