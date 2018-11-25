@@ -249,7 +249,7 @@ class _LoginFormState extends State<LoginForm> {
                         Scaffold.of(context).showSnackBar(_loginSnack);
                         _signInUser(viewModel.signInUserEmailCallback,
                             _emailController.text, _passwordController.text);
-                            Navigator.pushNamedAndRemoveUntil(context, KaffeRoutes.feed, (Route<dynamic> route) => false);
+                            Navigator.pushNamedAndRemoveUntil(context, KaffeRoutes.main, (Route<dynamic> route) => false);
                       } //Navigator.pop(context);
                     }),
               ),

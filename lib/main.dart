@@ -57,7 +57,7 @@ class KaffeApp extends StatelessWidget {
         title: 'Kaffe',
         theme: KaffeTheme.modernTheme,
         routes: {
-          KaffeRoutes.home: (context) => MyHomePage(),
+          KaffeRoutes.main: (context) => MainScreen(),
           KaffeRoutes.feed: (context) => MainScreen(),
           KaffeRoutes.login: (context) => SignInScreen(),
           KaffeRoutes.launch: (context) => LaunchScreen(),
