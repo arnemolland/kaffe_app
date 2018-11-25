@@ -100,3 +100,14 @@ class UpdateTabAction {
     return 'UpdateTabAction{newTab: $newTab}';
   }
 }
+
+class UpdateFilterAction {
+  final VisibilityFilter newFilter;
+
+  UpdateFilterAction(this.newFilter);
+
+  @override
+  String toString() {
+    return 'UpdateFilterAction{newFilter: $newFilter}';
+  }
+}
