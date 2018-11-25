@@ -6,4 +6,5 @@ class KaffeRoutes {
   static final feed = 'feed';
   static final stats ='/stats';
   static final launch = '/launch';
+  static final add = '/add';
 }
