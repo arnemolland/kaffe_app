@@ -15,6 +15,7 @@ import 'package:kaffe_app/actions/actions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'presentation/main_screen.dart';
 import 'presentation/signup_screen.dart';
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
@@ -57,6 +58,7 @@ class KaffeApp extends StatelessWidget {
         theme: KaffeTheme.modernTheme,
         routes: {
           KaffeRoutes.home: (context) => MyHomePage(),
+          KaffeRoutes.feed: (context) => MainScreen(),
           KaffeRoutes.login: (context) => SignInScreen(),
           KaffeRoutes.launch: (context) => LaunchScreen(),
           KaffeRoutes.signup: (context) => SignUpScreen()
