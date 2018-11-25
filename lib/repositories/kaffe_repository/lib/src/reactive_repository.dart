@@ -11,3 +11,13 @@ abstract class ReactiveArticlesRepository {
 
   Future<void> updateArticle(ArticleEntity article);
 }
+
+abstract class ReactiveCoffeesRepository {
+  Future<void> addNewCoffee(CoffeeEntity coffee);
+
+  Future<void> deleteCoffee(List<String> idList);
+
+  Stream <List<CoffeeEntity>> coffees();
+
+  Future<void> updateCoffee(CoffeeEntity coffee);
+}

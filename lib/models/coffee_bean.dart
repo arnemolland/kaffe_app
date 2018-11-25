@@ -1,0 +1,1 @@
+enum CoffeeBean { arabica, robusto, liberica, unknown}

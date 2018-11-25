@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AppState {
   final bool isLoading;
   final List<Article> articles;
+  final List<Coffee> coffees;
   final AppTab activeTab;
   final VisibilityFilter activeFilter;
   final FirebaseUser firebaseUser;
@@ -14,6 +15,7 @@ class AppState {
   AppState({
     this.isLoading = false,
     this.articles = const [],
+    this.coffees = const[],
     this.activeTab = AppTab.feed,
     this.activeFilter = VisibilityFilter.all,
     this.firebaseUser,
@@ -25,6 +27,7 @@ class AppState {
     return AppState(
         isLoading: isLoading ?? this.isLoading,
         articles: articles ?? this.articles,
+        coffees: coffees ?? this.coffees,
         activeTab: activeTab ?? this.activeTab,
         activeFilter: activeFilter ?? this.activeFilter,
         firebaseUser: firebaseUser ?? this.firebaseUser);
@@ -32,7 +35,7 @@ class AppState {
 
   @override
   int get hashCode =>
-  isLoading.hashCode ^ articles.hashCode ^ activeTab.hashCode ^ activeFilter.hashCode ^ firebaseUser.hashCode;
+  isLoading.hashCode ^ articles.hashCode ^ coffees.hashCode ^ activeTab.hashCode ^ activeFilter.hashCode ^ firebaseUser.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -41,12 +44,13 @@ class AppState {
           runtimeType == other.runtimeType &&
           isLoading == other.isLoading &&
           articles == other.articles &&
+          coffees == other.coffees &&
           activeTab == other.activeTab &&
           activeFilter == other.activeFilter &&
           firebaseUser == other.firebaseUser;
 
   @override
   String toString() {
-    return 'AppState{isLoading: $isLoading, articles: $articles, activeTab: $activeTab, activeFilter: $activeFilter, firebaseUser: $firebaseUser}';
+    return 'AppState{isLoading: $isLoading, articles: $articles, coffees: $coffees, activeTab: $activeTab, activeFilter: $activeFilter, firebaseUser: $firebaseUser}';
   }
 }

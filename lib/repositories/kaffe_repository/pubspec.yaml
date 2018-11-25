@@ -11,6 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  kaffe_app:
+    path: ../../../
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

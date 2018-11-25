@@ -45,6 +45,52 @@ class AddArticleAction {
   }
 }
 
+class LoadCoffeesAction {
+  final List<Coffee> coffees;
+
+  LoadCoffeesAction(this.coffees);
+
+  @override
+  String toString() {
+    return 'LoadArticlesAction{articles: $coffees}';
+  }
+}
+
+  class UpdateCoffeeAction {
+  final String id;
+  final Article updatedCoffee;
+
+  UpdateCoffeeAction(this.id, this.updatedCoffee);
+
+  @override
+  String toString() {
+    return 'UpdatearticleAction{id: $id, updatedarticle: $updatedCoffee}';
+  }
+}
+
+class DeleteCoffeeAction {
+  final String id;
+
+  DeleteCoffeeAction(this.id);
+
+  @override
+  String toString() {
+    return 'DeleteArticleAction{id: $id}';
+  }
+}
+
+class AddCoffeeAction {
+  final Coffee coffee;
+
+  AddCoffeeAction(this.coffee);
+
+  @override
+  String toString() {
+    return 'AddArticleAction{article: $coffee}';
+  }
+}
+
+
 class InitAppAction {
   @override
   String toString() {
