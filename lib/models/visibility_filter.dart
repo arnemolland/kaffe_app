@@ -1,0 +1,1 @@
+enum VisibilityFilter { all, relevant, newest, top }
