@@ -5,6 +5,7 @@ import 'package:kaffe_app/models/models.dart';
 import 'package:kaffe_app/actions/actions.dart';
 import 'package:kaffe_app/constants/painters.dart';
 import 'dart:ui';
+import 'package:kaffe_app/constants/routes.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -208,6 +209,7 @@ class _SignupFormState extends State<SignupForm> {
                         Scaffold.of(context).showSnackBar(_signupSnack);
                         _signUpUser(viewModel.signUpUserCallback,
                             _emailController.text, _passwordController.text);
+                            Navigator.pushNamedAndRemoveUntil(context, KaffeRoutes.feed, (Route<dynamic> route) => false);
                       } //Navigator.pop(context);
                     }),
               ),
