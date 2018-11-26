@@ -53,6 +53,7 @@ class KaffeApp extends StatelessWidget {
     return StoreProvider(
       store: store,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         navigatorObservers: [routeObserver],
         title: 'Kaffe',
         theme: KaffeTheme.modernTheme,
