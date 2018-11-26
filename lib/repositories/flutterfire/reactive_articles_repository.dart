@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kaffe_repository/kaffe_repository.dart';
 
 class FirestoreReactiveArticlesRepository implements ReactiveArticlesRepository {
-  static const String path = 'article';
+  static const String path = 'articles';
 
   final Firestore firestore;
 

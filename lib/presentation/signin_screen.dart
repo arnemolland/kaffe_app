@@ -10,6 +10,7 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:kaffe_app/models/models.dart';
 import 'package:kaffe_app/constants/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInScreen extends StatefulWidget {
   SignInScreen({Key key}) : super(key: key ?? KaffeKeys.signinScreen);
@@ -150,19 +151,32 @@ class _LoginFormState extends State<LoginForm> {
       content: Text('Invalid email or password',
           style: TextStyle(color: Colors.white, fontFamily: 'Raleway')),
       backgroundColor: Colors.red);
-
-  _signInUser(Function(String email, String password) onSubmittedCallback,
-      String email, String password) async {
-    onSubmittedCallback(email, password);
+  
+    _onSubmit(Store<AppState> store, String email, String password) {
+    store.dispatch(SignInMailAction(
+        onCompleted: _onCompleted,
+        onError: _onError,
+        email: email,
+        password: password));
   }
+
+  _onCompleted() {
+    Navigator.pushNamedAndRemoveUntil(
+        context, KaffeRoutes.main, (Route<dynamic> route) => false);
+  }
+
+  _onError(error) {
+    Scaffold.of(context).hideCurrentSnackBar();
+    Scaffold.of(context).showSnackBar(_invalidSnack);
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SignInScreenViewModel>(converter: (store) {
       return new SignInScreenViewModel(
-          signInUserEmailCallback: ((email, password) =>
-              store.dispatch(new SignInMailAction(email, password))),
-          signInGoogleCallback: () => store.dispatch(new SignInGoogleAction()));
+        signInGoogleCallback: () => store.dispatch(SignInGoogleAction()),
+      );
     }, builder: (context, viewModel) {
       return Form(
         key: _formKey,
@@ -171,7 +185,7 @@ class _LoginFormState extends State<LoginForm> {
           children: <Widget>[
             TextFormField(
               validator: (value) {
-                if (value.isEmpty) {
+                if (value.isEmpty || !value.contains('@')) {
                   return 'Enter your email';
                 }
               },
@@ -247,9 +261,7 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         Scaffold.of(context).showSnackBar(_loginSnack);
-                        _signInUser(viewModel.signInUserEmailCallback,
-                            _emailController.text, _passwordController.text);
-                            Navigator.pushNamedAndRemoveUntil(context, KaffeRoutes.main, (Route<dynamic> route) => false);
+                        _onSubmit(StoreProvider.of<AppState>(context), _emailController.text, _passwordController.text);
                       } //Navigator.pop(context);
                     }),
               ),
@@ -279,6 +291,8 @@ class SignInScreenViewModel {
   final Function(String email, String password) signInUserEmailCallback;
   final Function() signInGoogleCallback;
 
-  SignInScreenViewModel(
-      {this.signInUserEmailCallback, this.signInGoogleCallback});
+  SignInScreenViewModel({
+    this.signInUserEmailCallback,
+    this.signInGoogleCallback,
+  });
 }

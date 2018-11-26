@@ -10,10 +10,15 @@ class FirebaseUserRepository implements UserRepository {
 
   @override
   Future<UserEntity> signinMail(String mail, String pass) async {
-    final firebaseUser = await _auth.signInWithEmailAndPassword(
+    FirebaseUser firebaseUser;
+    try{
+      firebaseUser = await _auth.signInWithEmailAndPassword(
       email: mail,
       password: pass,
-    );
+    ); }
+    catch(e) {
+      throw AsyncError(e, StackTrace.fromString(e.toString()));
+    }
 
     return UserEntity(
         id: firebaseUser.uid,

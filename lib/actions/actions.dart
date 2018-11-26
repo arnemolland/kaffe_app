@@ -1,5 +1,8 @@
 import 'package:kaffe_app/models/models.dart';
 
+
+typedef void VoidCallback();
+typedef void ErrorCallback(error);
 class LoadArticlesAction {
   final List<Article> articles;
 
@@ -102,7 +105,10 @@ class SignInMailAction {
   final String email;
   final String password;
 
-  SignInMailAction(this.email, this.password);
+  VoidCallback onCompleted;
+  ErrorCallback onError;
+
+  SignInMailAction({this.email, this.password, this.onCompleted, this.onError});
   
   @override
   String toString() {
@@ -116,12 +122,14 @@ class SignInGoogleAction {
     return 'SignInGoogleAction{}';
   }
 }
-
 class SignUpMailAction {
   final String email;
   final String password;
 
-  SignUpMailAction(this.email, this.password);
+  VoidCallback onCompleted;
+  ErrorCallback onError;
+
+  SignUpMailAction({this.email, this.password, this.onCompleted, this.onError});
 
   @override
   String toString() {

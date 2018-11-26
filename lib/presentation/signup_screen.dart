@@ -112,17 +112,29 @@ class _SignupFormState extends State<SignupForm> {
     backgroundColor: Colors.red,
   );
 
-  _signUpUser(Function(String email, String password) onSubmittedCallbaback,
-      String email, String password) async {
-    onSubmittedCallbaback(email, password);
+  _onSubmit(Store<AppState> store, String email, String password) {
+    store.dispatch(SignUpMailAction(
+        onCompleted: _onCompleted,
+        onError: _onError,
+        email: email,
+        password: password));
   }
+
+  _onCompleted() {
+    Navigator.pushNamedAndRemoveUntil(
+        context, KaffeRoutes.main, (Route<dynamic> route) => false);
+  }
+
+  _onError(error) {
+    Scaffold.of(context).hideCurrentSnackBar();
+    Scaffold.of(context).showSnackBar(_invalidSnack);
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SignUpScreenViewModel>(converter: (store) {
-      return new SignUpScreenViewModel(
-          signUpUserCallback: ((email, password) =>
-              store.dispatch(new SignUpMailAction(email, password))));
+      return new SignUpScreenViewModel();
     }, builder: (context, viewModel) {
       return Form(
         key: _formKey,
@@ -207,9 +219,8 @@ class _SignupFormState extends State<SignupForm> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         Scaffold.of(context).showSnackBar(_signupSnack);
-                        _signUpUser(viewModel.signUpUserCallback,
-                            _emailController.text, _passwordController.text);
-                            Navigator.pushNamedAndRemoveUntil(context, KaffeRoutes.feed, (Route<dynamic> route) => false);
+                                                _onSubmit(StoreProvider.of<AppState>(context), _emailController.text, _passwordController.text);
+
                       } //Navigator.pop(context);
                     }),
               ),

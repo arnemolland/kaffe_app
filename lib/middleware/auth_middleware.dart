@@ -29,9 +29,10 @@ void Function(
   return (store, action, next) {
     next(action);
 
-    repository.signinMail(action.email, action.password).then((_) {
-      store.dispatch(ConnectToDataSourceAction());
-    });
+    repository.signinMail(action.email, action.password)
+    .then((data) => action.onCompleted())
+    .catchError((e) => action.onError(e))
+    .then((_) => store.dispatch(ConnectToDataSourceAction()));
   };
 }
 
@@ -45,9 +46,10 @@ void Function(
   return (store, action, next) {
     next(action);
 
-    repository.signupMail(action.email, action.password).then((_) {
-      store.dispatch(ConnectToDataSourceAction());
-    });
+    repository.signupMail(action.email, action.password)
+    .then((data) => action.onCompleted())
+    .catchError((e) => action.onError(e))
+    .then((_) => store.dispatch(ConnectToDataSourceAction()));
   };
 }
 
