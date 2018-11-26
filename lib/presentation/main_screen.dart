@@ -35,6 +35,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 1,
         title: Text(
           tab == AppTab.feed ? 'Feed' : 'Stats',
           style: TextStyle(
@@ -43,11 +44,11 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.filter),
+            icon: Icon(Icons.filter, color: Theme.of(context).buttonColor,),
             onPressed: () {},
           ),
           IconButton(
-            icon: Icon(Icons.add_box),
+            icon: Icon(Icons.add_box, color: Theme.of(context).buttonColor),
             onPressed: () {},
           ),
         ],

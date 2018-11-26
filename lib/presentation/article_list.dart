@@ -32,7 +32,11 @@ class ArticleList extends StatelessWidget {
         return ArticleItem(
           article: article,
           onDismissed: (direction) {
-            
+            if(direction == DismissDirection.startToEnd) {
+              
+            }
+            else if(direction == DismissDirection.endToStart) {
+            }
           },
           onTap: () => _onArticleTap(context, article),
         );
