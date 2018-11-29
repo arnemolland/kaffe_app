@@ -8,6 +8,9 @@ import 'package:kaffe_app/constants/keys.dart';
 import 'package:kaffe_app/constants/routes.dart';
 import 'package:kaffe_app/containers/kaffe_bar.dart';
 import 'package:kaffe_app/containers/stats_view.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:kaffe_app/constants/painters.dart';
+import 'package:kaffe_app/actions/actions.dart';
 
 @immutable
 class HomeScreenViewModel {
@@ -26,32 +29,36 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    isNewRoute = false;
+    tab = AppTab.feed;
   }
 
-  bool isNewRoute = false;
-  AppTab tab = AppTab.feed;
+  bool isNewRoute;
+  AppTab tab;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        title: Text(
-          tab == AppTab.feed ? 'Feed' : 'Stats',
-          style: TextStyle(
-              fontFamily: 'Raleway', color: Theme.of(context).accentColor),
-        ),
-        centerTitle: true,
+        centerTitle: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.filter, color: Theme.of(context).buttonColor,),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.add_box, color: Theme.of(context).buttonColor),
-            onPressed: () {},
-          ),
+            icon: Icon(Icons.account_circle, color: Theme.of(context).accentColor),
+            splashColor: Theme.of(context).primaryColorLight,
+            highlightColor: Theme.of(context).primaryColorLight,
+            onPressed: () {
+
+            },
+          )
         ],
+        title: Text(
+          'Kaffe.io',
+          style: TextStyle(
+              fontFamily: 'Lobster', color: Theme.of(context).accentColor,
+              fontSize: 28),
+        ),
+        
       ),
       body: tab == AppTab.feed ? FilteredArticles() : StatsView(),
       floatingActionButton: FloatingActionButton(
@@ -60,7 +67,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         child: Icon(Icons.add),
         foregroundColor: Theme.of(context).primaryColor,
         onPressed: () {
-          Navigator.pushNamed(context, KaffeRoutes.add);
+          //_buildOverlay(context);
+          int number = StoreProvider.of<AppState>(context).state.articles.length+1;
+          Article article = Article('Article $number', author: 'Arne Olai Molland', imageUrl: 'https://picsum.photos/500/500/?random');
+          StoreProvider.of<AppState>(context).dispatch(AddArticleAction(article));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -74,7 +84,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               IconButton(
-                  icon: Icon(Icons.dashboard,
+                  icon: Icon(
+                      tab == AppTab.feed ? Icons.dashboard : OMIcons.dashboard,
                       color: Theme.of(context).buttonColor),
                   onPressed: () {
                     Navigator.popUntil(context, (route) {
@@ -93,7 +104,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                   tooltip: 'Feed',
                   padding: EdgeInsets.symmetric(horizontal: 50.0)),
               IconButton(
-                  icon: Icon(Icons.bubble_chart,
+                  icon: Icon(
+                      tab == AppTab.stats
+                          ? Icons.bubble_chart
+                          : OMIcons.bubbleChart,
                       color: Theme.of(context).buttonColor),
                   onPressed: () {
                     Navigator.popUntil(context, (route) {
@@ -115,5 +129,37 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             ]),
       ),
     );
+  }
+
+  _buildOverlay(BuildContext context) async {
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry = OverlayEntry(
+      opaque: false,
+      builder: (context) => Container(
+            child: CustomPaint(
+              painter: OverlayPainter(surfaceColor: Colors.white),
+              child: SafeArea(
+                child: Row(
+                  children: <Widget>[
+                    /*IconButton(
+                      icon: Icon(Icons.add_comment),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.add_circle_outline),
+                      onPressed: () {},
+                    ),*/
+                  ],
+                ),
+              ),
+            ),
+          ),
+    );
+
+    overlayState.insert(overlayEntry);
+
+    await Future.delayed(Duration(seconds: 5));
+
+    overlayEntry.remove();
   }
 }
