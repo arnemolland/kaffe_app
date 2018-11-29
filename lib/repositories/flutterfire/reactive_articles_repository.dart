@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kaffe_repository/kaffe_repository.dart';
+import 'package:kaffe_app/models/models.dart';
 
 class FirestoreReactiveArticlesRepository implements ReactiveArticlesRepository {
   static const String path = 'articles';
@@ -37,6 +38,7 @@ class FirestoreReactiveArticlesRepository implements ReactiveArticlesRepository 
           doc['title'] ?? '',
           doc['published'] ?? DateTime.now(),
           doc['beans'] ?? 0,
+          doc['imageUrl'] ?? 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Roasted_coffee_beans.jpg',
         );
       }).toList();
     });

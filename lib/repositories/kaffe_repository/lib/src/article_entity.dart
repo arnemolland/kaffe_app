@@ -1,15 +1,18 @@
+import 'package:kaffe_app/models/models.dart';
+
 class ArticleEntity {
   final String id;
   final String author;
   final String title;
   final DateTime published;
   final int beans;
+  final String imageUrl;
 
-  ArticleEntity(this.id, this.author, this.title, this.published, this.beans);
+  ArticleEntity(this.id, this.author, this.title, this.published, this.beans, this.imageUrl);
 
   @override
   int get hashCode =>
-    id.hashCode ^ author.hashCode ^ title.hashCode ^ published.hashCode ^ beans.hashCode;
+    id.hashCode ^ author.hashCode ^ title.hashCode ^ published.hashCode ^ beans.hashCode ^ imageUrl.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -20,7 +23,8 @@ class ArticleEntity {
     author == other.author &&
     published == other.published &&
     title == other.title &&
-    beans == other.beans;
+    beans == other.beans &&
+    imageUrl == other.imageUrl;
 
   Map<String, Object> toJson() {
     return {
@@ -28,7 +32,8 @@ class ArticleEntity {
       "author": author,
       "title": title,
       "published": published,
-      "beans": beans
+      "beans": beans,
+      "imageUrl": imageUrl,
     };
   }
 
@@ -39,11 +44,12 @@ class ArticleEntity {
       json["title"] as String,
       json["published"] as DateTime,
       json["beans"] as int,
+      json["imageUrl"] as String,
     );
   }
 
   @override
   String toString() {
-    return 'ArticleEntity{id: $id, author: $author, title: $title, published: $published, beans: $beans}';
+    return 'ArticleEntity{id: $id, author: $author, title: $title, published: $published, beans: $beans, imageUrl: $imageUrl}';
   }
 }

@@ -5,8 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kaffe_app/constants/keys.dart';
 import 'package:kaffe_app/presentation/article_item.dart';
-import 'package:kaffe_app/presentation/article_view.dart';
 import 'package:kaffe_app/containers/article_details.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:kaffe_app/actions/actions.dart';
 
 class ArticleList extends StatelessWidget {
   final List<Article> articles;
@@ -32,11 +33,7 @@ class ArticleList extends StatelessWidget {
         return ArticleItem(
           article: article,
           onDismissed: (direction) {
-            if(direction == DismissDirection.startToEnd) {
-              
-            }
-            else if(direction == DismissDirection.endToStart) {
-            }
+            StoreProvider.of<AppState>(context).dispatch(DeleteArticleAction(article.id));
           },
           onTap: () => _onArticleTap(context, article),
         );
