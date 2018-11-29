@@ -1,0 +1,1 @@
+enum ArticleCategory { review, trending, recent, starred, }
