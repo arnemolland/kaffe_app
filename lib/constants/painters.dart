@@ -49,3 +49,27 @@ class LaunchArcPainter extends CustomPainter {
     return true;
   }
 }
+
+class OverlayPainter extends CustomPainter {
+  Color surfaceColor;
+
+  OverlayPainter({this.surfaceColor});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Offset v1 = Offset(size.width/5, size.height/1.120);
+    Offset v2 = Offset(size.width/5*4, size.height/1.25);
+    Rect rect = Rect.fromPoints(v1, v2);
+    RRect rrect = RRect.fromRectAndRadius(rect, Radius.circular(10));
+    Paint surface = new Paint()
+    ..style = PaintingStyle.fill
+    ..color = surfaceColor;
+
+    canvas.drawRRect(rrect, surface);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}
