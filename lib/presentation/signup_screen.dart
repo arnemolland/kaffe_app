@@ -112,6 +112,9 @@ class _SignupFormState extends State<SignupForm> {
     backgroundColor: Colors.red,
   );
 
+  final passFocus = FocusNode();
+  final mailFocus = FocusNode();
+
   _onSubmit(Store<AppState> store, String email, String password) {
     store.dispatch(SignUpMailAction(
         onCompleted: _onCompleted,
@@ -130,7 +133,6 @@ class _SignupFormState extends State<SignupForm> {
     Scaffold.of(context).showSnackBar(_invalidSnack);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SignUpScreenViewModel>(converter: (store) {
@@ -142,12 +144,18 @@ class _SignupFormState extends State<SignupForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextFormField(
+              focusNode: mailFocus,
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Enter your email';
                 }
               },
               controller: _emailController,
+              textInputAction: TextInputAction.next,
+              onEditingComplete: () {
+                FocusScope.of(context).requestFocus(passFocus);
+              },
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
@@ -173,12 +181,14 @@ class _SignupFormState extends State<SignupForm> {
 
             // [Password]
             TextFormField(
+              focusNode: passFocus,
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Enter your password';
                 }
               },
               controller: _passwordController,
+              textInputAction: TextInputAction.done,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
@@ -198,6 +208,13 @@ class _SignupFormState extends State<SignupForm> {
                 fontSize: 20.0,
               ),
               obscureText: true,
+              onEditingComplete: () {
+                if (_formKey.currentState.validate()) {
+                  Scaffold.of(context).showSnackBar(_signupSnack);
+                  _onSubmit(StoreProvider.of<AppState>(context),
+                      _emailController.text, _passwordController.text);
+                } //Navigator.pop(context);
+              },
             ),
 
             SizedBox(
@@ -219,8 +236,8 @@ class _SignupFormState extends State<SignupForm> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         Scaffold.of(context).showSnackBar(_signupSnack);
-                                                _onSubmit(StoreProvider.of<AppState>(context), _emailController.text, _passwordController.text);
-
+                        _onSubmit(StoreProvider.of<AppState>(context),
+                            _emailController.text, _passwordController.text);
                       } //Navigator.pop(context);
                     }),
               ),
@@ -240,13 +257,14 @@ class _SignupFormState extends State<SignupForm> {
                         fontWeight: FontWeight.w300,
                       ),
                     ),
-                    Text('Terms and Conditions',
-                    style: TextStyle(
-                      fontFamily: 'Raleway',
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic
-                    ),)
+                    Text(
+                      'Terms and Conditions',
+                      style: TextStyle(
+                          fontFamily: 'Raleway',
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic),
+                    )
                   ],
                 ),
                 textColor: Colors.white,

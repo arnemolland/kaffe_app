@@ -151,8 +151,8 @@ class _LoginFormState extends State<LoginForm> {
       content: Text('Invalid email or password',
           style: TextStyle(color: Colors.white, fontFamily: 'Raleway')),
       backgroundColor: Colors.red);
-  
-    _onSubmit(Store<AppState> store, String email, String password) {
+
+  _onSubmit(Store<AppState> store, String email, String password) {
     store.dispatch(SignInMailAction(
         onCompleted: _onCompleted,
         onError: _onError,
@@ -170,6 +170,7 @@ class _LoginFormState extends State<LoginForm> {
     Scaffold.of(context).showSnackBar(_invalidSnack);
   }
 
+  final passFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +190,12 @@ class _LoginFormState extends State<LoginForm> {
                   return 'Enter your email';
                 }
               },
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
               controller: _emailController,
+              onEditingComplete: () {
+                FocusScope.of(context).requestFocus(passFocus);
+              },
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
@@ -215,32 +221,40 @@ class _LoginFormState extends State<LoginForm> {
 
             // [Password]
             TextFormField(
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Enter your password';
-                }
-              },
-              controller: _passwordController,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                  borderRadius: BorderRadius.circular(30),
+                focusNode: passFocus,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Enter your password';
+                  }
+                },
+                controller: _passwordController,
+                textInputAction: TextInputAction.send,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white, width: 5),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  labelStyle:
+                      TextStyle(color: Colors.white70, fontFamily: 'Raleway'),
+                  filled: false,
+                  labelText: 'Password',
                 ),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 5),
-                  borderRadius: BorderRadius.circular(30),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
                 ),
-                labelStyle:
-                    TextStyle(color: Colors.white70, fontFamily: 'Raleway'),
-                filled: false,
-                labelText: 'Password',
-              ),
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              ),
-              obscureText: true,
-            ),
+                obscureText: true,
+                onEditingComplete: () {
+                  if (_formKey.currentState.validate()) {
+                    Scaffold.of(context).showSnackBar(_loginSnack);
+                    _onSubmit(StoreProvider.of<AppState>(context),
+                        _emailController.text, _passwordController.text);
+                  } //Navigator.pop(context);              },
+                }),
 
             SizedBox(
               height: 50.0,
@@ -261,7 +275,8 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         Scaffold.of(context).showSnackBar(_loginSnack);
-                        _onSubmit(StoreProvider.of<AppState>(context), _emailController.text, _passwordController.text);
+                        _onSubmit(StoreProvider.of<AppState>(context),
+                            _emailController.text, _passwordController.text);
                       } //Navigator.pop(context);
                     }),
               ),
