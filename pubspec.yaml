@@ -36,6 +36,7 @@ dependencies:
   redux_logging: ^0.3.0
   date_format: ^1.0.5
   outline_material_icons: ^0.1.0
+  zefyr: ^0.3.0
 
 dev_dependencies:
   flutter_test:
