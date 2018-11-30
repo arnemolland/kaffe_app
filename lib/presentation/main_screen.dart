@@ -29,12 +29,21 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    isNewRoute = false;
+    _isNewRoute = false;
+    _isPopupVisible = false;
     tab = AppTab.feed;
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500)
+    );
+    _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
   }
 
-  bool isNewRoute;
+  bool _isNewRoute;
+  bool _isPopupVisible;
   AppTab tab;
+  AnimationController _controller;
+  Animation _animation;
 
   @override
   Widget build(BuildContext context) {
@@ -44,21 +53,20 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         centerTitle: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.account_circle, color: Theme.of(context).accentColor),
+            icon: Icon(Icons.account_circle,
+                color: Theme.of(context).accentColor),
             splashColor: Theme.of(context).primaryColorLight,
             highlightColor: Theme.of(context).primaryColorLight,
-            onPressed: () {
-
-            },
+            onPressed: () {},
           )
         ],
         title: Text(
           'Kaffe.io',
           style: TextStyle(
-              fontFamily: 'Lobster', color: Theme.of(context).accentColor,
+              fontFamily: 'Lobster',
+              color: Theme.of(context).accentColor,
               fontSize: 28),
         ),
-        
       ),
       body: tab == AppTab.feed ? FilteredArticles() : StatsView(),
       floatingActionButton: FloatingActionButton(
@@ -67,10 +75,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         child: Icon(Icons.add),
         foregroundColor: Theme.of(context).primaryColor,
         onPressed: () {
-          //_buildOverlay(context);
-          int number = StoreProvider.of<AppState>(context).state.articles.length+1;
-          Article article = Article('Article $number', author: 'Arne Olai Molland', imageUrl: 'https://picsum.photos/500/500/?random');
-          StoreProvider.of<AppState>(context).dispatch(AddArticleAction(article));
+          _buildOverlay(context);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -79,7 +84,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         notchMargin: 5.0,
         shape: CircularNotchedRectangle(),
         color: Colors.white,
-        child: new Row(
+        child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
@@ -90,12 +95,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                   onPressed: () {
                     Navigator.popUntil(context, (route) {
                       if (route.settings.name == KaffeRoutes.feed) {
-                        isNewRoute = false;
+                        _isNewRoute = false;
                       }
                       return true;
                     });
 
-                    if (isNewRoute) {
+                    if (_isNewRoute) {
                       setState(() {
                         tab = AppTab.feed;
                       });
@@ -112,12 +117,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                   onPressed: () {
                     Navigator.popUntil(context, (route) {
                       if (route.settings.name == KaffeRoutes.stats) {
-                        isNewRoute = false;
+                        _isNewRoute = false;
                       }
                       return true;
                     });
 
-                    if (isNewRoute) {
+                    if (_isNewRoute) {
                       setState(() {
                         tab = AppTab.stats;
                       });
@@ -132,34 +137,57 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   }
 
   _buildOverlay(BuildContext context) async {
+    _controller.forward(from: 0);
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(
-      opaque: false,
-      builder: (context) => Container(
-            child: CustomPaint(
-              painter: OverlayPainter(surfaceColor: Colors.white),
-              child: SafeArea(
-                child: Row(
-                  children: <Widget>[
-                    /*IconButton(
-                      icon: Icon(Icons.add_comment),
-                      onPressed: () {},
+        opaque: false,
+        builder: (context) => FadeTransition(
+          opacity: _animation,
+              child: Align(
+                alignment: Alignment(0, 0.8),
+                child: Container(
+                  width: 150,
+                  child: Card(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                            int number = StoreProvider.of<AppState>(context)
+                                    .state
+                                    .articles
+                                    .length +
+                                1;
+                            Article article = Article('Article $number',
+                                author: 'Arne Olai Molland',
+                                imageUrl:
+                                    'https://picsum.photos/500/500/?random');
+                            StoreProvider.of<AppState>(context)
+                                .dispatch(AddArticleAction(article));
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.near_me),
+                          onPressed: () {},
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Icon(Icons.add_circle_outline),
-                      onPressed: () {},
-                    ),*/
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-    );
+            ));
 
     overlayState.insert(overlayEntry);
+    _controller.addStatusListener((status) {
+      if(status == AnimationStatus.dismissed) {
+        overlayEntry.remove();
+      }
+    });
 
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 2));
+    _controller.reverse(from: 1);
 
-    overlayEntry.remove();
   }
 }
