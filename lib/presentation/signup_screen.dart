@@ -39,38 +39,30 @@ class _SignUpScreenState extends State<SignUpScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: CustomPaint(
-          painter: LaunchArcPainter(
-              startColor: Theme.of(context).accentColor,
-              endColor: Color(0xFFFA9D11),
-              radius: _radius,
-              surfaceColor: Colors.grey,
-              paintBackdrop: false),
-          child: SafeArea(
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 24.0),
-              children: <Widget>[
-                SizedBox(
-                  height: 100.0,
-                ),
-                Hero(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Text(
-                      'Sign up',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 42),
-                    ),
+        child: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            children: <Widget>[
+              SizedBox(
+                height: 100.0,
+              ),
+              Hero(
+                child: Material(
+                  color: Colors.transparent,
+                  child: Text(
+                    'Sign up',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 42),
                   ),
-                  tag: 'signup',
                 ),
-                SizedBox(height: 100.0),
-                SignupForm(),
-              ],
-            ),
+                tag: 'signup',
+              ),
+              SizedBox(height: 100.0),
+              SignupForm(),
+            ],
           ),
         ),
       ),

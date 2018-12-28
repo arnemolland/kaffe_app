@@ -14,55 +14,28 @@ class LaunchScreen extends StatefulWidget {
 }
 
 class _LaunchScreenState extends State<LaunchScreen>
-    with TickerProviderStateMixin, RouteAware {
+    with RouteAware, TickerProviderStateMixin {
   double _radius;
-  double _newRadius = 0.0;
-  bool isLogin = false;
-  bool shouldNavigate = false;
   AnimationController _radiusAnimationController;
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _radius = 500;
-    });
-
-    _radiusAnimationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000))
-      ..addListener(() {
-        setState(() {
-          _radius =
-              lerpDouble(_radius, _newRadius, _radiusAnimationController.value);
-        });
-      })
-      ..addStatusListener((status) async {
-        if (status == AnimationStatus.completed && isLogin && shouldNavigate) {
-          await Navigator.pushNamed(context, KaffeRoutes.login);
-          _radiusAnimationController.reverse(from:100);
-        }
-        if (status == AnimationStatus.completed && !isLogin && shouldNavigate) {
-          await Navigator.pushNamed(context, KaffeRoutes.signup).then((Object res) {
-           _radiusAnimationController.reverse(from:100);
-          }) ;       }
-      });
   }
+
   // Called when the top route has been popped off, and the current route shows up.
   @override
   void didPopNext() {
     setState(() {
-          _radiusAnimationController.reverse();
-        });
+      _radiusAnimationController.reverse(from: 1);
+    });
     debugPrint("didPopNext: $runtimeType");
   }
 
   // Called when the current route has been pushed.
   @override
   void didPush() {
-      shouldNavigate = false;
-    _radius = _newRadius;
-    _newRadius = 500;
-    _radiusAnimationController.forward(from: 0.0);
+    _radiusAnimationController.reverse(from: 1);
     debugPrint("didPush: $runtimeType");
   }
 
@@ -75,9 +48,6 @@ class _LaunchScreenState extends State<LaunchScreen>
   // Called when a new route has been pushed, and the current route is no longer visible.
   @override
   void didPushNext() {
-       shouldNavigate = false;
-    _radius = _newRadius;
-    _newRadius = 500;
     _radiusAnimationController.forward(from: 0.0);
     debugPrint("didPushNext ${runtimeType}");
   }
@@ -85,112 +55,49 @@ class _LaunchScreenState extends State<LaunchScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        key: KaffeKeys.signInFab,
+        backgroundColor: Colors.white,
+        child: Icon(Icons.arrow_forward),
+        foregroundColor: Theme.of(context).primaryColor,
+        onPressed: () {
+          Navigator.pushNamed(context, KaffeRoutes.login);
+        }
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       body: Container(
+        color: Theme.of(context).primaryColor,
         alignment: Alignment.center,
-        child: CustomPaint(
-          painter: LaunchArcPainter(
-              startColor: Theme.of(context).accentColor,
-              endColor: Color(0xFFFA9D11),
-              radius: _radius,
-              surfaceColor: Colors.grey,
-              paintBackdrop: true),
-          child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 125.0,
+        child: SafeArea(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 125.0,
+              ),
+              Text(
+                'kaffe.io',
+                style: TextStyle(
+                  fontFamily: 'Lobster',
+                  fontSize: 72,
+                  color: Colors.white,
                 ),
-                Image.asset(
-                  'assets/images/takeaway.png',
-                  fit: BoxFit.cover,
-                  height: 300.0,
-                  alignment: Alignment.center,
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                Text(
-                  'The daily fuel.',
-                  style: TextStyle(
-                      fontFamily: 'Raleway',
-                      fontSize: 22,
-                      color: Colors.black12,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 200.0,
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    OutlineButton(
-                        color: Colors.white,
-                        padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
-                        child: Hero(
-                          child: Text('Signup',
-                              style: TextStyle(
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18)),
-                          tag: 'signup',
-                        ),
-                        textColor: Colors.white,
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        highlightColor: Theme.of(context).primaryColorLight,
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                        highlightedBorderColor: Colors.white,
-                        onPressed: () {
-                          shouldNavigate = true;
-                          setState(() {
-                            isLogin = false;
-                            _radius = _newRadius;
-                            _newRadius = 1200;
-                            _radiusAnimationController.forward(from: 0.0);
-                          });
-                        }),
-                    OutlineButton(
-                        color: Colors.white,
-                        padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
-                        child: Hero(
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18),
-                            ),
-                            tag: 'login'),
-                        textColor: Colors.white,
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        highlightColor: Colors.white,
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                        highlightedBorderColor:
-                            Theme.of(context).primaryColorLight,
-                        onPressed: () {
-                          shouldNavigate = true;
-                          setState(() {
-                            isLogin = true;
-                            _radius = _newRadius;
-                            _newRadius = 1200;
-                            _radiusAnimationController.forward(from: 0.0);
-                          });
-                        }),
-                  ],
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Text(
+                'Runtime.',
+                style: TextStyle(
+                    fontFamily: 'Raleway',
+                    fontSize: 22,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 200.0,
+              ),
+            ],
           ),
         ),
       ),

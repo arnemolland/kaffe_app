@@ -11,6 +11,7 @@ import 'package:kaffe_app/containers/stats_view.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:kaffe_app/constants/painters.dart';
 import 'package:kaffe_app/actions/actions.dart';
+import 'package:kaffe_app/presentation/stats_builder.dart';
 
 @immutable
 class HomeScreenViewModel {
@@ -49,12 +50,13 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
         centerTitle: false,
         actions: [
           IconButton(
             icon: Icon(Icons.account_circle,
-                color: Theme.of(context).accentColor),
+                color: Theme.of(context).primaryColor),
             splashColor: Theme.of(context).primaryColorLight,
             highlightColor: Theme.of(context).primaryColorLight,
             onPressed: () {},
@@ -64,16 +66,21 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
           'Kaffe.io',
           style: TextStyle(
               fontFamily: 'Lobster',
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).primaryColor,
               fontSize: 28),
         ),
       ),
-      body: tab == AppTab.feed ? FilteredArticles() : StatsView(),
+      body: PageView(
+        children: <Widget>[
+          FilteredArticles(),
+          StatsBuilder(),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         key: KaffeKeys.addCoffeeFab,
-        backgroundColor: Theme.of(context).buttonColor,
+        backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.add),
-        foregroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).backgroundColor,
         onPressed: () {
           _buildOverlay(context);
         },
@@ -83,7 +90,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
       bottomNavigationBar: BottomAppBar(
         notchMargin: 5.0,
         shape: CircularNotchedRectangle(),
-        color: Colors.white,
+        color: Theme.of(context).bottomAppBarColor,
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
@@ -153,8 +160,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: () {
+                          icon: Icon(Icons.add, color: Theme.of(context).primaryColor,),
+                          onPressed: () async {
                             int number = StoreProvider.of<AppState>(context)
                                     .state
                                     .articles
@@ -166,11 +173,15 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                                     'https://picsum.photos/500/500/?random');
                             StoreProvider.of<AppState>(context)
                                 .dispatch(AddArticleAction(article));
+                                await _controller.reverse(from: 1);
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.near_me),
-                          onPressed: () {},
+                          icon: Icon(Icons.near_me, color: Theme.of(context).primaryColor,),
+                          onPressed: () async {
+                            await _controller.reverse(from: 1);
+                            Navigator.pushNamed(context, KaffeRoutes.editor);
+                          },
                         ),
                       ],
                     ),
@@ -178,13 +189,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 ),
               ),
             ));
-
-    overlayState.insert(overlayEntry);
     _controller.addStatusListener((status) {
       if(status == AnimationStatus.dismissed) {
         overlayEntry.remove();
       }
     });
+    overlayState.insert(overlayEntry);
 
     await Future.delayed(Duration(seconds: 2));
     _controller.reverse(from: 1);

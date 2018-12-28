@@ -14,6 +14,9 @@ class KaffeKeys {
   static final articleItemAuthor = (String id) => Key('ArticleItem__${id}__Author');
   static final articleView = const Key('__articleView__');
 
+  // Article editor
+  static final articleEditor = const Key('__articleEditor__');
+
   // Common
   static final kaffeBottomBar = const Key('__kaffeBottomBar__');
 
@@ -23,6 +26,7 @@ class KaffeKeys {
   static final googleButton = const Key('__googleButton__');
   static final mailButton = const Key('__mailButton__');
   static final launchScreen = const Key('__launchScreen__');
+  static final signInFab = const Key('__signInFab__');
 
   // Coffees
   static final coffeeList = const Key('__coffeeList__');

@@ -44,6 +44,7 @@ class Article {
     title == other.title &&
     beans == other.beans &&
     imageUrl == other.imageUrl;
+    
     @override
     String toString() {
       return 'Article{id: $id, author: $author, published: $published, title: $title}, beans: $beans, imageUrl: $imageUrl';

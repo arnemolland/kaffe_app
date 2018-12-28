@@ -17,6 +17,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'presentation/main_screen.dart';
 import 'presentation/signup_screen.dart';
+import 'package:kaffe_app/presentation/article_editor.dart';
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
@@ -62,7 +63,7 @@ class KaffeApp extends StatelessWidget {
           KaffeRoutes.feed: (context) => MainScreen(),
           KaffeRoutes.login: (context) => SignInScreen(),
           KaffeRoutes.launch: (context) => LaunchScreen(),
-          KaffeRoutes.signup: (context) => SignUpScreen()
+          KaffeRoutes.editor: (context) => ArticleEditor()
         },
         initialRoute: '/launch',
       ),
@@ -70,51 +71,4 @@ class KaffeApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
 
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
